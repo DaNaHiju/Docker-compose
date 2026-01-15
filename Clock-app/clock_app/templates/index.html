@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .clock-container {
+            text-align: center;
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        #clock {
+            font-size: 72px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+        h1 {
+            color: #333;
+            margin: 0 0 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <h1>🕐 Clock App</h1>
+        <div id="clock">--:--:--</div>
+        <p>Tiempo sincronizado</p>
+    </div>
+
+    <script>
+        function updateClock() {
+            fetch('/get_time')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('clock').textContent = data.time;
+                });
+        }
+        
+        // Actualizar cada 500ms
+        setInterval(updateClock, 500);
+        updateClock();
+    </script>
+</body>
+</html>

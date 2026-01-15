@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .button-container {
+            text-align: center;
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        #decrementBtn {
+            font-size: 24px;
+            padding: 20px 40px;
+            background: #f5576c;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        #decrementBtn:hover {
+            background: #e04657;
+            transform: scale(1.05);
+        }
+        #decrementBtn:active {
+            transform: scale(0.95);
+        }
+        h1 {
+            color: #333;
+            margin: 0 0 30px 0;
+        }
+        #status {
+            margin-top: 20px;
+            color: #666;
+            min-height: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container">
+        <h1>⏰ Button App</h1>
+        <button id="decrementBtn">⬇️ Decrement Time</button>
+        <div id="status"></div>
+    </div>
+
+    <script>
+        document.getElementById('decrementBtn').addEventListener('click', function() {
+            fetch('/decrement', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    document.getElementById('status').textContent = 
+                        `✅ Time updated: ${data.time}`;
+                } else {
+                    document.getElementById('status').textContent = 
+                        `❌ Error: ${data.message}`;
+                }
+            })
+            .catch(error => {
+                document.getElementById('status').textContent = 
+                    `❌ Connection error`;
+            });
+        });
+    </script>
+</body>
+</html>

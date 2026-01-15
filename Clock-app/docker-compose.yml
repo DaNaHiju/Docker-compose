@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  clock_app:
+    build: ./clock_app
+    container_name: clock_app
+    ports:
+      - "5001:5001"
+    networks:
+      - clock-network
+    restart: unless-stopped
+  
+  
+  button_app:
+    build: ./button_app
+    container_name: button_app
+    ports:
+      - "5002:5002"
+    environment:
+      - CLOCK_APP_URL=http://clock_app:5001
+    depends_on:
+      - clock_app
+    networks:
+      - clock-network
+    restart: unless-stopped
+
+networks:
+  clock-network:
+    driver: bridge
