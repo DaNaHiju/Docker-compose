@@ -1,39 +1,111 @@
-Mission Overview
-Clock App (clock_app):
+# Clock App - Docker Compose Project
 
-Displays the current time.
-Exposes an API endpoint (/update_time) to decrement the time.
-Button App (button_app):
+A multi-container Docker application demonstrating microservices communication using Flask and Docker Compose.
 
-Contains a button to decrement the time.
-Communicates with the clock_app by making a POST request to the /update_time API endpoint.
+## Project Overview
 
-Step-by-Step Guide
-Clone the Repository:
+This project consists of two Flask applications that communicate with each other:
 
-Create Flask Apps:
+- **Clock App**: Displays current time and provides an API to update it (Port 5001)
+- **Button App**: Contains a button that decrements the clock time via HTTP requests (Port 5002)
 
-Create two directories: clock_app and button_app.
-In each directory, create the necessary Python files (app.py) and templates.
-clock_app: Displays the current time and updates it upon API request.
-button_app: Contains a button to decrement the time and communicates with clock_app.
-Set up the requirements.txt file in each directory.
-Create Dockerfiles:
+## Technologies Used
 
-In each app directory, create a Dockerfile specifying the Docker image configuration.
-Create Docker Compose File:
+- Python 3.11
+- Flask
+- Docker & Docker Compose
+- uv (Python package manager)
+- Requests library
 
-Create a docker-compose.yml file in the project root.
-Define services for both clock_app and button_app, specifying build contexts and ports.
-Configure a network for communication between the two containers.
-Build and Run the Containers:
+## Quick Start
 
+### Run with Docker Compose
+
+```bash
 docker-compose up --build
 
-Access the Apps:
+Access the applications
 
-The clock_app is available at http://localhost:5001.
-The button_app is available at http://localhost:5002.
-Notes
-The button_app communicates with the clock_app using the requests library.
-Ensure that the CLOCK_APP_URL environment variable in the button_app matches the URL where the clock_app is running in the Docker network.
+    Clock App: http://localhost:5001
+
+    Button App: http://localhost:5002
+
+Test it
+
+    Open http://localhost:5001 - see the clock
+
+    Open http://localhost:5002 - click the button
+
+    Watch the clock time decrement!
+
+Docker Commands
+
+bash
+# Start containers
+docker-compose up --build
+
+# Stop containers
+docker-compose down
+
+# View logs
+docker-compose logs -f
+
+# List running containers
+docker-compose ps
+
+Project Structure
+
+text
+Clock-app/
+├── clock_app/
+│   ├── app.py
+│   ├── templates/
+│   ├── Dockerfile
+│   └── requirements.txt
+├── button_app/
+│   ├── app.py
+│   ├── templates/
+│   ├── Dockerfile
+│   └── requirements.txt
+├── docker-compose.yml
+└── README.md
+
+How It Works
+
+    Clock App runs on port 5001 and displays current time
+
+    Button App runs on port 5002 with a decrement button
+
+    When button is clicked, it sends POST request to Clock App's /update_time endpoint
+
+    Clock App decrements time by 1 second and returns updated time
+
+    Both apps communicate through Docker's bridge network
+
+API Endpoints
+Clock App (5001)
+
+    GET / - Clock UI
+
+    GET /get_time - Get current time (JSON)
+
+    POST /update_time - Decrement time by 1 second
+
+Button App (5002)
+
+    GET / - Button UI
+
+    POST /decrement - Trigger clock decrement
+
+Development
+
+Run locally without Docker:
+
+bash
+# Clock App
+cd clock_app
+uv run python app.py
+
+# Button App (in another terminal)
+cd button_app
+uv run python app.py
