@@ -13,10 +13,6 @@ RUN uv sync --frozen --no-cache
 # Copy application code
 COPY . .
 
-# Create non-root user
-RUN useradd -m appuser && chown -R appuser:appuser /app
-USER appuser
-
 # Expose Flask port
 EXPOSE 5000
 
