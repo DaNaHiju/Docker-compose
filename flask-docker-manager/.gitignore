@@ -1,4 +1,3 @@
-answer/ 
 # Byte-compiled / C extensions
 __pycache__/
 *.py[cod]

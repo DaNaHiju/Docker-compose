@@ -1,6 +1,3 @@
-Condensed README.md
-
-text
 # Flask Docker Manager
 
 Web interface for managing Docker containers with Flask and docker-py. Create, view, delete containers and access their web interfaces directly from your browser.
