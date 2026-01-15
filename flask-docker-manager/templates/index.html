@@ -1,20 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Docker Container Manager</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
     <h1>Docker Container Manager</h1>
     <ul>
         {% for container in containers %}
             <li>
-                {{ container.short_id }} - {{ container.name }} ({{ container.status }})
-                <a href="{{ url_for('open_container', container_id=container.id) }}">Open</a>
-                <a href="{{ url_for('delete', container_id=container.id) }}">Delete</a>
+                <div class="container-info">
+                    <span class="container-id">{{ container.short_id }}</span>
+                    <span class="container-name">{{ container.name }}</span>
+                    <span class="container-status {{ container.status.lower() }}">{{ container.status }}</span>
+                </div>
+                <div class="container-actions">
+                    <a href="{{ url_for('open_container', container_id=container.id) }}" class="btn-link">Open</a>
+                    <a href="{{ url_for('delete', container_id=container.id) }}" class="btn-link btn-danger">Delete</a>
+                </div>
             </li>
         {% endfor %}
     </ul>
-    <a href="{{ url_for('create') }}">Create Container</a>
-</body>
-</html>
+    <a href="{{ url_for('create') }}" class="btn-primary">+ Create Container</a>
+</div>
+{% endblock %}
